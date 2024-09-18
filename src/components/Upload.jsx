@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Make sure axios is imported
+import { useMutation } from '@tanstack/react-query';
 import { FaUserCircle, FaUpload } from 'react-icons/fa';
 
 const Upload = () => {
@@ -7,23 +9,38 @@ const Upload = () => {
   ]);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const uploadImage = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/users/predict-digit/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Image upload failed");
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: uploadImage,
+    onSuccess: (data) => {
+      setMessages([...messages, { text: `Predicted digit: ${data.predicted_digit}`, fromUser: false }]);
+    },
+    onError: (error) => {
+      setMessages([...messages, { text: `Error: ${error.message}`, fromUser: false }]);
+    }
+  });
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Handle image upload and get response here
-      // For now, we'll simulate the response as "1"
-      const formData = new FormData();
-      formData.append('image', file);
-
-      // Simulating an API call to get the digit recognition result
-      // Replace this with your actual API call
-      setTimeout(() => {
-        setMessages([...messages, { text: '1', fromUser: false }]);
-      }, 1000);
-
-      // Adding the uploaded image message
-      setMessages([...messages, { text: `Image uploaded: ${file.name}`, fromUser: true }]);
       setSelectedImage(URL.createObjectURL(file));
+      mutation.mutate(file);  
     }
   };
 
