@@ -18,3 +18,5 @@ const removeFromLocalStorage = (key) => {
 const removeAllDataFromLocalStorage = () => {
     localStorage.clear();
 }
+
+export {setToLocalStorage, getFromLocalStorage, removeFromLocalStorage, removeAllDataFromLocalStorage};

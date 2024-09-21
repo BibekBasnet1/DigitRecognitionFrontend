@@ -1,33 +1,68 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
 import { useMutation } from "@tanstack/react-query";  
+import api from "../api";
+import {getFromLocalStorage, setToLocalStorage} from '../utils/localstorage.js';
 
 const Login = () => {
+  
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+
   const navigate = useNavigate();
 
-  const loginMutation = useMutation({
-    mutationFn: async () => {
-      // Add your login logic here (e.g., API call)
+  const getQueryParams = () => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      access_token: params.get("access_token"),
+      name: params.get("name"),
+      email: params.get("email"),
+      profile_picture: params.get("profile_picture"),
+    };
+  };
+
+  useEffect(() => {
+    const { access_token, name, email, profile_picture } = getQueryParams();
+
+    if (access_token) {
+      setToLocalStorage("access_token", access_token);
+      setToLocalStorage("user_details", { name, email, profile_picture });
+
+      navigate("/upload");
+    } else {
+      console.error("No access token found in URL");
+    }
+  }, [navigate]);
+
+  const onClickGoogle = () => {
+    window.location.href = "http://localhost:8000/api/login"; 
+  };
+
+ 
+  const { mutate: loginUser } = useMutation({
+    mutationFn: async (data) => {
+      const response = await api.post("/login", data); 
+      return response.data;
     },
-    onSuccess: () => {
-      navigate("/");  
+    onSuccess: (data) => {
+      setToLocalStorage("access_token", data.access_token);
+      setToLocalStorage("user_details", data.user); 
+      navigate("/upload"); 
     },
     onError: (error) => {
-      console.error("Login failed", error);
+      console.error("Login error:", error); 
     },
   });
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    loginMutation.mutate(form);
+    e.preventDefault(); 
+    loginUser({ email: form.email, password: form.password }); 
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden ">
       
@@ -88,9 +123,9 @@ const Login = () => {
         <p className="text-center mt-10 mb-10 text-lg ">Or Sign In With</p>
 
         <div className="mt-6 flex justify-center space-x-6">
-          <FaGoogle className="text-red cursor-pointer" size={40}  />
-          <FaGithub className="text-gray-800 cursor-pointer" size={40} />
-          <FaFacebook className="text-blue-600 cursor-pointer" size={40} />
+          <FaGoogle className="text-red cursor-pointer"  onClick={onClickGoogle} size={40}  />
+          {/* <FaGithub className="text-gray-800 cursor-pointer" size={40} /> */}
+          {/* <FaFacebook className="text-blue-600 cursor-pointer" size={40} /> */}
         </div>
           
       </div>
