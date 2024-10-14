@@ -19,19 +19,14 @@ const testimonials = [
     testimonial: "A game-changer in the industry. Will definitely use again.",
   },
   {
-    title: "Michael Johnson",
+    title: "Emily Davis",
     img: "https://via.placeholder.com/150",
-    testimonial: "A game-changer in the industry. Will definitely use again.",
+    testimonial: "Outstanding service and support throughout the process.",
   },
   {
-    title: "Michael Johnson",
+    title: "David Brown",
     img: "https://via.placeholder.com/150",
-    testimonial: "A game-changer in the industry. Will definitely use again.",
-  },
-  {
-    title: "Michael Johnson",
-    img: "https://via.placeholder.com/150",
-    testimonial: "A game-changer in the industry. Will definitely use again.",
+    testimonial: "Very pleased with the results, would highly recommend.",
   },
 ];
 
@@ -67,7 +62,7 @@ const Testimonial = () => {
   return (
     <section className="bg-gray-100 py-20 flex justify-center relative">
       <div className="container px-4 mt-10 mb-20">
-        <h2 className="text-3xl font-semibold text-center mb-20">What Our Clients Say About us</h2>
+        <h2 className="text-3xl font-semibold text-center mb-20">What Our Clients Say About Us</h2>
         <Slider {...settings} className="testimonial-slider">
           {testimonials.map((item, index) => (
             <Card
@@ -75,25 +70,12 @@ const Testimonial = () => {
               title={item.title}
               img={item.img}
               testimonial={item.testimonial}
+              alt={`${item.title}'s testimonial`}  
             />
           ))}
         </Slider>
       </div>
-      <style jsx>{`
-        .testimonial-slider .slick-slide {
-          transition: opacity 0.5s ease;
-        }
-
-        .testimonial-slider .slick-slide.slick-center {
-          opacity: 1;
-          transform: scale(1.05);
-        }
-
-        .testimonial-slider .slick-slide:not(.slick-center) {
-          opacity: 0.5;
-          transform: scale(0.95);
-        }
-      `}</style>
+     
     </section>
   );
 };

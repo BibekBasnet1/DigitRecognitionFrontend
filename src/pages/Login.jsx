@@ -12,7 +12,6 @@ const Login = () => {
     password: "",
   });
 
-
   const navigate = useNavigate();
 
   const getQueryParams = () => {
@@ -31,10 +30,7 @@ const Login = () => {
     if (access_token) {
       setToLocalStorage("access_token", access_token);
       setToLocalStorage("user_details", { name, email, profile_picture });
-
-      navigate("/upload");
     } else {
-      console.error("No access token found in URL");
     }
   }, [navigate]);
 
@@ -65,7 +61,6 @@ const Login = () => {
   
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden ">
-      
 
       <div className="absolute top-0 left-0 w-40 h-40 bg-blue-200 rounded-full opacity-30 animate-bubble"></div>
       <div className="absolute top-20 right-0 w-24 h-24 bg-gray-200 rounded-full opacity-30 animate-bubble animation-delay-2000"></div>
@@ -76,8 +71,6 @@ const Login = () => {
       <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-yellow-200 rounded-full opacity-30 animate-bubble animation-delay-3500"></div>
       <div className="absolute top-1/3 left-1/2 w-36 h-36 bg-pink-200 rounded-full opacity-35 animate-bubble animation-delay-1500"></div>
       <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal-200 rounded-full opacity-25 animate-bubble animation-delay-4000"></div>
-
-
 
       <div className="relative z-10 bg-white shadow-lg rounded-lg px-8 py-10 " style={{minWidth: '30%'}}>
         <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
@@ -124,14 +117,11 @@ const Login = () => {
 
         <div className="mt-6 flex justify-center space-x-6">
           <FaGoogle className="text-red cursor-pointer"  onClick={onClickGoogle} size={40}  />
-          {/* <FaGithub className="text-gray-800 cursor-pointer" size={40} /> */}
-          {/* <FaFacebook className="text-blue-600 cursor-pointer" size={40} /> */}
         </div>
           
       </div>
     
-    </div>
-  
+    </div>  
   );
 };
 

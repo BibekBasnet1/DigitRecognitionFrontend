@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-  
   @keyframes move {
     0% {
       transform: translateY(0) translateX(0);
@@ -70,4 +68,19 @@
   footer {
     background: linear-gradient(to right, #2d3748, #1a202c);
   }
+
+  .testimonial-slider .slick-slide {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .testimonial-slider .slick-slide.slick-center {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  
+  .testimonial-slider .slick-slide:not(.slick-center) {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  
   

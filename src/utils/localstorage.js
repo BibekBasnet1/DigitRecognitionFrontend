@@ -6,7 +6,8 @@ const setToLocalStorage = (key,value) => {
 
 // get from local storage
 const getFromLocalStorage = (key) => {
-    localStorage.getItem(btoa(key));
+    const value = localStorage.getItem(btoa(key));
+    return value ? value : null;
 }
 
 // remove from local storage

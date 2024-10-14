@@ -1,7 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import pagesData from './Menu';
 
+import { getFromLocalStorage ,removeAllDataFromLocalStorage} from '../utils/localstorage';
+
 const NavBar = () => {
+
+  const token = getFromLocalStorage('access_token');
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    if (token) {
+      removeAllDataFromLocalStorage();
+      navigate('/upload');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <nav className="flex items-center justify-around p-4 text-white py-10 text-lg">
 
@@ -25,11 +40,11 @@ const NavBar = () => {
       </ul>
 
       <div className="flex-shrink-0 mr-5">
-        <Link
-          to="/login"
+        <button
+          onClick={handleButtonClick}
            className="outline-white border border-white hover:bg-blue-600 text-white px-7 py-3 rounded-lg text-sm">
-          Login
-        </Link>
+          {token ? 'Logout' : 'Login'}
+        </button>
       </div>
     </nav>
   );

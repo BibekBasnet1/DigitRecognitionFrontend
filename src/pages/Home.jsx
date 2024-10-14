@@ -4,7 +4,6 @@ import { Link, redirect } from "react-router-dom";
 const Home = () => {
 
 
-
   return (
       <>
         <div className="flex flex-col items-center justify-center text-white min-h-80 mt-20">
@@ -28,7 +27,8 @@ const Home = () => {
     
           <div className="text-center mt-9">
             <Link className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-7 rounded-lg shadow-lg transition duration-300 text-lg"
-             to={'/upload'} >
+             to={'/upload'}
+              >
               Upload Digits
             </Link>
           </div>

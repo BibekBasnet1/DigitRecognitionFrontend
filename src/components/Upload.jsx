@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Make sure axios is imported
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { FaUserCircle, FaUpload } from 'react-icons/fa';
+import { getFromLocalStorage } from '../utils/localstorage';
 
 const Upload = () => {
+
   const [messages, setMessages] = useState([
     { text: 'Hello! Please upload an image to get a response.', fromUser: false },
   ]);
+
   const [selectedImage, setSelectedImage] = useState(null);
+  const navigate = useNavigate();
 
   const uploadImage = async (file) => {
     const formData = new FormData();
@@ -29,7 +33,7 @@ const Upload = () => {
   const mutation = useMutation({
     mutationFn: uploadImage,
     onSuccess: (data) => {
-      setMessages([...messages, { text: `Predicted digit: ${data.predicted_digit}`, fromUser: false }]);
+      setMessages([...messages, { text: `Predicted digit: ${data.predicted_digit}`, fromUser: true }]);
     },
     onError: (error) => {
       setMessages([...messages, { text: `Error: ${error.message}`, fromUser: false }]);
@@ -40,56 +44,60 @@ const Upload = () => {
     const file = e.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
-      mutation.mutate(file);  
+      mutation.mutate(file);
     }
   };
 
+  useEffect(()=>{
+      const token = getFromLocalStorage('access_token');
+      if(!token){
+        navigate('/login');
+      }
+  },[])
+
   return (
-    <div className="min-h-screen bg-color-main flex">
-      <div className="sidebar w-64 bg-gray-800 text-white p-4">
-        <div className="flex flex-col items-center">
-          <FaUserCircle className="text-4xl mb-4" />
-          <h2 className="text-lg font-semibold mb-4">Support</h2>
-          <div className="flex flex-col w-full">
-            <button className="flex items-center text-white py-2 px-4 mb-2 rounded-lg hover:bg-gray-700">
-              <FaUpload className="mr-2" /> Upload Image
-            </button>
+    <div className="min-h-screen bg-slate-700 flex">
+      <div className="flex justify-center bg-color-main w-full flex-col">
+        <div className="flex justify-center bg-color-main w-full h-4/5">
+          <div className="flex-1 p-4 overflow-y-auto bg-color-main">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`flex ${msg.fromUser ? 'justify-end' : 'justify-start'} mb-3`}
+              >
+                <div
+                  className={`max-w-xs px-4 py-2 rounded-lg text-white ${msg.fromUser ? 'bg-blue-600' : 'bg-gray-600'}`}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {selectedImage && (
+              <div className="flex justify-center">
+                <img src={selectedImage} alt="Uploaded" className="object-contain mt-4 min-w-3xl min-h-96 max-w-3xl max-h-96 rounded-lg" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex p-8  min-w-[80rem] max-w-full h-1/5">
+          <div className="flex w-full rounded-xl items-end justify-center">
+            <input
+              type="file"
+              className="block p-3 text-center justify-center  text-sm text-slate-500 mb-20 min-w-20
+              file:mr-4 file:py-2 file:px-4 file:rounded-md
+              file:border-0 file:text-sm file:font-semibold
+              file:bg-pink-50 file:text-pink-700
+              hover:file:bg-pink-100"
+              onChange={handleImageUpload}
+            />
           </div>
         </div>
       </div>
-      <div className="flex-1 bg-white flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800">Chat with Support</h2>
-        </div>
-        <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
-          {messages.map((msg, index) => (
-            <div 
-              key={index} 
-              className={`flex ${msg.fromUser ? 'justify-end' : 'justify-start'} mb-3`}
-            >
-              <div 
-                className={`max-w-xs px-4 py-2 rounded-lg text-white ${msg.fromUser ? 'bg-blue-600' : 'bg-gray-600'}`}
-              >
-                {msg.text}
-              </div>
-            </div>
-          ))}
-          {selectedImage && (
-            <div className="flex justify-center">
-              <img src={selectedImage} alt="Uploaded" className="max-w-xs mt-4 rounded-lg" />
-            </div>
-          )}
-        </div>
-        <div className="p-4 border-t border-gray-200 bg-gray-100">
-          <input 
-            type="file" 
-            onChange={handleImageUpload}
-            className="w-full border border-gray-300 rounded-lg p-2"
-          />
-        </div>
-      </div>
     </div>
+
   );
 };
 
 export default Upload;
+
