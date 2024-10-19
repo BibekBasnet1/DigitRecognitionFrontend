@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
 import { useMutation } from "@tanstack/react-query";  
 import api from "../api";
+import { toast } from "react-toastify";
 import {getFromLocalStorage, setToLocalStorage} from '../utils/localstorage.js';
 
 const Login = () => {
@@ -28,16 +29,20 @@ const Login = () => {
     const { access_token, name, email, profile_picture } = getQueryParams();
 
     if (access_token) {
+      let item = getFromLocalStorage("access_token");
+      if(item){
+        navigate("/upload");
+        return;
+      }
       setToLocalStorage("access_token", access_token);
       setToLocalStorage("user_details", { name, email, profile_picture });
-    } else {
+      navigate("/upload");
     }
   }, [navigate]);
 
   const onClickGoogle = () => {
     window.location.href = "http://localhost:8000/api/login"; 
   };
-
  
   const { mutate: loginUser } = useMutation({
     mutationFn: async (data) => {
@@ -46,11 +51,12 @@ const Login = () => {
     },
     onSuccess: (data) => {
       setToLocalStorage("access_token", data.access_token);
-      setToLocalStorage("user_details", data.user); 
+      setToLocalStorage("user_details", JSON.stringify(data.user));
       navigate("/upload"); 
     },
     onError: (error) => {
-      console.error("Login error:", error); 
+      toast.error("Invalid email or password");
+      // console.error("Login error:", error); 
     },
   });
 
@@ -109,7 +115,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300"
           >
-            Login
+            Log In to Your Account
           </button>
         </form>
 

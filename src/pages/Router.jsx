@@ -3,6 +3,7 @@ import MainContainer from "./MainContainer";
 import Login from "./Login";
 import Navbar from "./Navbar"; 
 import Upload from "../components/Upload";
+import Register from "../pages/Register";
 import PrivateRoutes from "./Route/PrivateRoute";
 
 const Router = () => {
@@ -10,6 +11,7 @@ const Router = () => {
     <Routes>
       <Route path="/" element={<MainContainer Navbar={Navbar} />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<div>Page Not Found</div>} />
 
       <Route element={<PrivateRoutes/>}>
