@@ -4,7 +4,7 @@ import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
 import { useMutation } from "@tanstack/react-query";
 import api from "../api";
 import { toast } from "react-toastify";
-import { setToLocalStorage } from '../utils/localstorage.js';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/localstorage.js';
 
 const Register = () => {
 
@@ -38,6 +38,13 @@ const Register = () => {
         e.preventDefault();
         loginUser({ email: form.email, password: form.password });
     };
+
+    useEffect(() => {
+        let access_token = getFromLocalStorage("access_token");
+        if (access_token) {
+            navigate("/upload");
+        }
+    },[])
 
     return (
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden ">

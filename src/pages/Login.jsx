@@ -1,13 +1,13 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
-import { useMutation } from "@tanstack/react-query";  
+import { useMutation } from "@tanstack/react-query";
 import api from "../api";
 import { toast } from "react-toastify";
-import {getFromLocalStorage, setToLocalStorage} from '../utils/localstorage.js';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/localstorage.js';
 
 const Login = () => {
-  
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -30,7 +30,7 @@ const Login = () => {
 
     if (access_token) {
       let item = getFromLocalStorage("access_token");
-      if(item){
+      if (item) {
         navigate("/upload");
         return;
       }
@@ -41,18 +41,18 @@ const Login = () => {
   }, [navigate]);
 
   const onClickGoogle = () => {
-    window.location.href = "http://localhost:8000/api/login"; 
+    window.location.href = "http://localhost:8000/api/login";
   };
- 
+
   const { mutate: loginUser } = useMutation({
     mutationFn: async (data) => {
-      const response = await api.post("/login", data); 
+      const response = await api.post("/login", data);
       return response.data;
     },
     onSuccess: (data) => {
       setToLocalStorage("access_token", data.access_token);
       setToLocalStorage("user_details", JSON.stringify(data.user));
-      navigate("/upload"); 
+      navigate("/upload");
     },
     onError: (error) => {
       toast.error("Invalid email or password");
@@ -60,11 +60,18 @@ const Login = () => {
     },
   });
 
+  useEffect(() => {
+    let access_token = getFromLocalStorage("access_token");
+    if (access_token) {
+      navigate("/upload");
+    }
+  }, [])
+
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    loginUser({ email: form.email, password: form.password }); 
+    e.preventDefault();
+    loginUser({ email: form.email, password: form.password });
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden ">
 
@@ -78,7 +85,7 @@ const Login = () => {
       <div className="absolute top-1/3 left-1/2 w-36 h-36 bg-pink-200 rounded-full opacity-35 animate-bubble animation-delay-1500"></div>
       <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal-200 rounded-full opacity-25 animate-bubble animation-delay-4000"></div>
 
-      <div className="relative z-10 bg-white shadow-lg rounded-lg px-8 py-10 " style={{minWidth: '30%'}}>
+      <div className="relative z-10 bg-white shadow-lg rounded-lg px-8 py-10 " style={{ minWidth: '30%' }}>
         <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
         <form onSubmit={handleSubmit} className="min-w-72">
           <div className="mb-6">
@@ -122,12 +129,12 @@ const Login = () => {
         <p className="text-center mt-10 mb-10 text-lg ">Or Sign In With</p>
 
         <div className="mt-6 flex justify-center space-x-6">
-          <FaGoogle className="text-red cursor-pointer"  onClick={onClickGoogle} size={40}  />
+          <FaGoogle className="text-red cursor-pointer" onClick={onClickGoogle} size={40} />
         </div>
-          
+
       </div>
-    
-    </div>  
+
+    </div>
   );
 };
 
