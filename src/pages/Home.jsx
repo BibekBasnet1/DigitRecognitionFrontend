@@ -19,9 +19,8 @@ const Home = () => {
     
           <div className="text-center mt-10"> 
             <h5 className="text-base md:text-lg lg:text-xl leading-relaxed">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Numquam culpa labore, excepturi beatae esse <br />
-              mollitia nobis, ex magni provident doloribus quos libero. Cupiditate, aspernatur.
+            Convert digit images into text in seconds with our fast, accurate, and  <br />
+            easy-to-use digit recognition system. Perfect for digitizing handwritten or printed numbers effortlessly.        
             </h5>
           </div>
     

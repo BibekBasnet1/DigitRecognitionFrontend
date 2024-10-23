@@ -8,7 +8,7 @@ const About = () => {
         </h1>
   
         <div className=" border-rose-400" >
-            <Video video={"../components/video/Video.jsx"} width={"1800px"} height={"1000px"}/>
+            <Video video={"../public/Video/digitRecongition.webm"} width={"1800px"} height={"1000px"} />
         </div>
       
       </div>

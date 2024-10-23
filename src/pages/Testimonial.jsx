@@ -5,27 +5,27 @@ import Card from '../components/Card';
 const testimonials = [
   {
     title: "John Doe",
-    img: "https://via.placeholder.com/150",
+    img: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg",
     testimonial: "This service is fantastic! Highly recommend it to anyone.",
   },
   {
     title: "Jane Smith",
-    img: "https://via.placeholder.com/150",
+    img: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     testimonial: "Amazing experience, very professional and friendly.",
   },
   {
     title: "Michael Johnson",
-    img: "https://via.placeholder.com/150",
+    img: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg",
     testimonial: "A game-changer in the industry. Will definitely use again.",
   },
   {
     title: "Emily Davis",
-    img: "https://via.placeholder.com/150",
+    img: "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&w=600",
     testimonial: "Outstanding service and support throughout the process.",
   },
   {
     title: "David Brown",
-    img: "https://via.placeholder.com/150",
+    img: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=600",
     testimonial: "Very pleased with the results, would highly recommend.",
   },
 ];

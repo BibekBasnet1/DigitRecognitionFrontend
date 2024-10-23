@@ -57,6 +57,11 @@ const Upload = () => {
 
   return (
     <div className="min-h-screen bg-slate-700 flex">
+
+      <button onClick={() => navigate('/')} className="absolute top-4 right-4 bg-slate-500 text-white px-4 py-2 rounded-lg">
+        Go To Home 
+      </button>
+
       <div className="flex justify-center bg-color-main w-full flex-col">
         <div className="flex justify-center bg-color-main w-full h-4/5">
           <div className="flex-1 p-4 overflow-y-auto bg-color-main">

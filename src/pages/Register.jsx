@@ -26,7 +26,7 @@ const Register = () => {
             toast.success("Registered Successfully");
         },
         onError: (error) => {
-            toast.error("Invalid email or password");
+            toast.error(error.response.data.detail);
         },
     });
 
@@ -60,7 +60,7 @@ const Register = () => {
             <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal-200 rounded-full opacity-25 animate-bubble animation-delay-4000"></div>
 
             <div className="relative z-10 bg-white shadow-lg rounded-lg px-8 py-10 " style={{ minWidth: '30%' }}>
-                <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
+                <h2 className="text-3xl font-semibold text-center mb-8">Register</h2>
                 <form onSubmit={handleSubmit} className="min-w-72">
                     <div className="mb-6">
                         <label htmlFor="email" className="block mb-2 text-md font-medium">

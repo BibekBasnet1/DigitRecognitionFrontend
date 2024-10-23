@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
 import { useMutation } from "@tanstack/react-query";
 import api from "../api";
 import { toast } from "react-toastify";
@@ -126,11 +125,36 @@ const Login = () => {
           </button>
         </form>
 
+        <div className="flex justify-center mt-10 mb-10">
+          <a
+            className="text-center text-lg"
+            onClick={() => navigate('/register')}
+          >
+            Don't have an account?
+            <span className="text-blue-500 hover:text-blue-700 transition duration-300 ms-1 cursor-pointer"> Go To Register</span>
+          </a>
+        </div>
+
         <p className="text-center mt-10 mb-10 text-lg ">Or Sign In With</p>
 
-        <div className="mt-6 flex justify-center space-x-6">
-          <FaGoogle className="text-red cursor-pointer" onClick={onClickGoogle} size={40} />
+        <div className="flex justify-center gap-4">  
+          <button
+            className="flex items-center gap-2 px-4 py-2 border rounded-lg 
+                hover:border-slate-400  
+                hover:shadow-md transition duration-150 
+                "
+            onClick={onClickGoogle}
+          >
+            <img
+              className="w-6 h-6"
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              loading="lazy"
+              alt="Google logo"
+            />
+            <span className="text-lg font-semibold">Login with Google</span> 
+          </button>
         </div>
+
 
       </div>
 
